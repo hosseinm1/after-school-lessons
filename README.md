@@ -1,2 +1,2 @@
 # after-school-lessons
-This after school lessons (Individual CW)
+This is after school lessons (Individual CW) project.
