@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Shop Homepage - Start Bootstrap Template</title>
+        <title>After School Lessons</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap icons-->
@@ -21,14 +21,14 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#">{{sitename}}</a>
+                <a class="navbar-brand">{{sitename}}</a>
                 
-                    <form v-if="this.cart.length > 0"  v-on:click="showCheckout" class="d-flex">
-                        <button class="btn btn-outline-dark" >
+                    <form v-if="this.cart.length > 0"   class="d-flex">
+                        <div v-on:click="showCheckout" class="btn btn-outline-dark" >
                             <i class="bi-cart-fill me-1"></i>
                             checkout
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">{{this.cart.lenght}}</span>
-                        </button>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">{{this.cart.length}}</span>
+                        </div>
                     </form>
                 </div>
             
@@ -109,16 +109,16 @@
         <div v-for='item in cart'>
             <div v-for='lesson in lessons'>
                 <div v-if='lesson.id === item'>
-                    <p></p>
+                    
                     <img v-bind:src="lesson.image" alt="" width="100" height="100">
                     <h2 v-text="lesson.subject"></h2>
                     <p>Location: {{lesson.location}} </p>
                     <p>Price:{{lesson.price}}</p>
-                    <p>Spaces: {{lesson.spaces}}</p>
+                    
 
                     
                     <button v-on:click="removeItem(item,cart.indexOf(item))">Remove</button>
-                    <hr noshade>
+                    
                 </div>
             </div>
         </div>
