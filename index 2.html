@@ -21,10 +21,9 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">{{sitename}}</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <a class="navbar-brand" href="#">{{sitename}}</a>
                 
-                    <form  v-on:click="showCheckout" class="d-flex">
+                    <form v-if="this.cart.length > 0"  v-on:click="showCheckout" class="d-flex">
                         <button class="btn btn-outline-dark" >
                             <i class="bi-cart-fill me-1"></i>
                             checkout
@@ -45,6 +44,18 @@
         </header>
         <!----------------            Section                ------------->
         <div v-if='showLessons' >
+            <p><input type="radio" id="subject" value="Subject" v-model="sort.first">
+                <label for="subject">Subject</label>
+                <input type="radio" id="location" value="Location" v-model="sort.first">
+                <label for="location">Location</label>
+                <input type="radio" id="price" value="Price" v-model="sort.first">
+                <label for="price">Price</label>
+                <input type="radio" id="availability" value="Availability" v-model="sort.first">
+                <label for="availability">Availability</label></p>
+            <p><input type="radio" id="ascending" value="Ascending" v-model="sort.second">
+                <label for="ascending">Ascending</label>
+                <input type="radio" id="descending" value="Descending" v-model="sort.second">
+                <label for="descending">Descending</label></p>
         <section class="py-5">
             
             <div class="container px-4 px-lg-5 mt-5">
@@ -69,13 +80,13 @@
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)" class="text-center" class="btn btn-outline-dark mt-auto" >Add to cart</div>
+                                <button class="btn btn-outline-dark mt-auto"  v-if="canAddToCart(lesson)" v-on:click="addToCart(lesson)" class="text-center"  >Add to cart</button>
                                 <button class="btn btn-outline-dark mt-auto" disabled='disabled' v-else>Add to cart</button>
 
                                 <span v-if='lesson.numberOfSpace === cartCount(lesson.id)'>All out!</span>
-                                <!-- <span v-else-if="lesson.numberOfSpace - cartCount(lesson.id) < 5"> Only
+                                <span v-else-if="lesson.numberOfSpace - cartCount(lesson.id) < 5"> Only
                                     {{lesson.numberOfSpace - cartCount(lesson.id)}} left! </span>
-                                <span v-else>Add now!</span> -->
+                                <span v-else>Add now!</span> 
                             </div>
                         </div>
                     </div>
@@ -86,11 +97,52 @@
             </div>
         
         </section>
-        <!---------------------Checkout Page---------------------------->
+        
         </div>
+        <!---------------------Checkout Page---------------------------->
     <div v-else>
         <section>
+
+        <!---Bootstrap-->
+
+
+        <div v-for='item in cart'>
+            <div v-for='lesson in lessons'>
+                <div v-if='lesson.id === item'>
+                    <p></p>
+                    <img v-bind:src="lesson.image" alt="" width="100" height="100">
+                    <h2 v-text="lesson.subject"></h2>
+                    <p>Location: {{lesson.location}} </p>
+                    <p>Price:{{lesson.price}}</p>
+                    <p>Spaces: {{lesson.spaces}}</p>
+
+                    
+                    <button v-on:click="removeItem(item,cart.indexOf(item))">Remove</button>
+                    <hr noshade>
+                </div>
+            </div>
+        </div>
+
+        <form>
             
+            <div class="form-group">
+              <label for="firstName">First Name:</label>
+              <input class="form-control" v-model = "order.firstName"/>
+              
+
+              <label for="lastName">Last Name:</label>
+              <input v-model = "order.lastName"/>
+            
+              <label for="phone">Phone:</label>
+              <input v-model="order.phone">
+
+              <label for="email">Email:</label>
+              <input type="email" v-model="order.email">
+            
+            
+            <button v-on:click = 'submitForm' class="btn btn-primary">Submit</button>
+            </div>
+          </form>
         
         </section>
     </div>
@@ -99,7 +151,7 @@
     </body>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; afterSchool 2021</p></div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -132,12 +184,25 @@
 
                 methods: {
                     addToCart: function(lesson){
+                        console.log("comes here add to cart");
                         this.cart.push(lesson.id)
+                        
+                    },
+                    submitForm() {
+                    alert('Order submitted!')
                     },
 
                     canAddToCart: function(lesson){
+                        console.log("comes here can add to cart");
+                        console.log(lesson.numberOfSpace > this.cartCount(lesson.id))
                         return lesson.numberOfSpace > this.cartCount(lesson.id)
+                        
                     },
+                    removeItem(lessons, index) {
+                        this.cart.splice(index, 1); //Removing item from cart and readding back to lesson attribute:space.
+                        lessons.spaces += 1;
+            
+                     },
 
                     cartCount: function(id){
                         let count = 0;
@@ -145,8 +210,9 @@
                             if (this.cart[i] === id) {
                                 count++;
                             }
-                            return count;
+                            
                         }
+                        return count;
                     },
                     
                     showCheckout: function(){
