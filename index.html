@@ -23,14 +23,14 @@
         <br>
         <main>
             <div v-if = "showProducts">
-            <div v-for = "lessons in lessons">
+            <div v-for = "lessons in storedProducts">
             <figure>
-                <img width="200" height="200" v-bind:src = "afterSchool.image">
+                <img width="200" height="200" v-bind:src = "lessons.image">
             </figure>
-            <h2 v-text="afterSchool.subject"></h2>
-            <p v-text="afterSchool.location"></p>
-            <p>available sits: {{afterSchool.numberOfsits}}</p>
-            <i>price: {{afterSchool.price}}</i>
+            <h2 v-text="lessons.subject"></h2>
+            <p v-text="lessons.location"></p>
+            <p>available sits: {{lessons.numberOfsits}}</p>
+            <i>price: {{lessons.price}}</i>
             <br>
             <!-- button v-show="canAddToCart" 
             v-on:click = "addToCart" 
@@ -38,11 +38,11 @@
             class="btn btn-primary">Add to cart 
                 <span class="fas fa-cart-plus"></span>
             </button> -->
-            <button class="btn btn-primary" v-on:click = 'addToCart' v-if = "canAddToCart">Add to Cart</button>
-            <span v-if="afterSchool.numberOfsits === cartItemCount">There is no more Sits!</span>
-            <span v-else-if="afterSchool.numberOfsits - cartItemCount < 5 ">
+            <button class="btn btn-primary" v-on:click = 'addToCart(lessons)' v-if = "canAddToCart(lessons)">Add to Cart</button>
+            <span v-if="lessons.numberOfsits === cartCount(lessons.id)">There is no more Sits!</span>
+            <span v-else-if="lessons.numberOfsits - cartCount(lessons.id) < 5 ">
                 <br/>
-                only {{afterSchool.numberOfsits - cartItemCount}} left!
+                only {{lessons.numberOfsits - cartCount(lessons.id)}} left!
             </span>
             <span v-else> Buy Now!</span>
             <button class="btn btn-primary" disabled = "disabled" v-else>Add to Cart</button>
@@ -92,12 +92,26 @@
                 
             },
             methods:{
-                addToCart: function(){
-                    this.cart.push(this.afterSchool.id);             
+                addToCart: function(lessons){
+                    this.cart.push(lessons.id);             
                     
                 },
                 showCheckout(){
                     this.showProducts = this.showProducts ? false : true;
+                },
+                canAddToCart: function() {
+                     return lessons.numberOfsits  > this.cartCount(lessons.id);
+                },
+
+                cartCount(id){
+                    let count = 0;
+                    for (let index = 0; index < this.cart.length; index++) {
+                        if (this.cart[index] === id) {
+                            count++;
+                        }
+                        
+                    }
+                    return count;
                 }
             },
 
@@ -107,9 +121,7 @@
                     return this.cart.length;
 
                  },
-                 canAddToCart: function() {
-                     return this.afterSchool.numberOfsits  > this.cartItemCount ;
-                    },
+                 
 
                     storedProducts: function(){
                     let productsArray = this.afterSchool.slice(0);

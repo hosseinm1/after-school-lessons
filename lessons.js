@@ -1,11 +1,11 @@
-let lessons = [
+let lesson = [
     {
     "id":2001,
     "subject": "Math Class",
     "location" : "Dubai",
     "price":6000,
     "image": "assets/math.jpg",
-    "numberOfsits": 10,
+    "numberOfSpace": 10,
     },
  
     {
@@ -13,8 +13,8 @@ let lessons = [
         "subject": "Science Class",
         "location" : "Dubai",
         "price":6500,
-        "image": "assets/math.jpg",
-        "numberOfsits": 8,
+        "image": "assets/science.jpeg",
+        "numberOfSpace": 8,
     },
 
     {
@@ -22,8 +22,8 @@ let lessons = [
         "subject": "Dancing",
         "location" : "Dubai",
         "price":4500,
-        "image": "assets/math.jpg",
-        "numberOfsits": 10,
+        "image": "assets/dancing.jpeg",
+        "numberOfSpace": 10,
     },
 
     {
@@ -31,8 +31,8 @@ let lessons = [
         "subject": "Karate",
         "location" : "Dubai",
         "price":5500,
-        "image": "assets/math.jpg",
-        "numberOfsits": 6,
+        "image": "assets/karate.jpeg",
+        "numberOfSpace": 6,
     },
 
     {
@@ -40,8 +40,8 @@ let lessons = [
         "subject": "Singing",
         "location" : "Dubai",
         "price":8000,
-        "image": "assets/math.jpg",
-        "numberOfsits": 6,
+        "image": "assets/singing.jpeg",
+        "numberOfSpace": 6,
     },
 
     {
@@ -49,25 +49,25 @@ let lessons = [
         "subject": "Arabic lessons",
         "location" : "Dubai",
         "price":4500,
-        "image": "assets/math.jpg",
-        "numberOfsits": 8,
+        "image": "assets/arabic.jpeg",
+        "numberOfSpace": 8,
     },
     {
         "id":2007,
         "subject": "Judo",
         "location" : "Dubai",
         "price":4500,
-        "image": "assets/math.jpg",
-        "numberOfsits": 9,
+        "image": "assets/judo.jpeg",
+        "numberOfSpace": 9,
     },
 
     {
         "id":2008,
-        "subject": "Singing",
+        "subject": "guitar",
         "location" : "Dubai",
         "price":3500,
-        "image": "assets/math.jpg",
-        "numberOfsits": 5,
+        "image": "assets/guitar.jpeg",
+        "numberOfSpace": 5,
     },
 
     {
@@ -75,8 +75,8 @@ let lessons = [
         "subject": "Football",
         "location" : "Dubai",
         "price":8900,
-        "image": "assets/math.jpg",
-        "numberOfsits": 6,
+        "image": "assets/football.jpeg",
+        "numberOfSpace": 6,
     },
 
     {
@@ -84,8 +84,8 @@ let lessons = [
         "subject": "Piano",
         "location" : "Dubai",
         "price":4600,
-        "image": "assets/math.jpg",
-        "numberOfsits": 6,
+        "image": "assets/piano.jpeg",
+        "numberOfSpace": 6,
     }
 
 ]
