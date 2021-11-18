@@ -17,21 +17,22 @@
         <script src="lessons.js"></script>
     </head>
     <body>
+        <div id='app'>
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">Start Bootstrap</a>
+                <a class="navbar-brand" href="#!">{{sitename}}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
+                    <form  v-on:click="showCheckout" class="d-flex">
+                        <button class="btn btn-outline-dark" >
                             <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                            checkout
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">{{this.cart.lenght}}</span>
                         </button>
                     </form>
                 </div>
-            </div>
+            
         </nav>
         <!-- Header-->
         <header class="bg-dark py-5">
@@ -43,14 +44,17 @@
             </div>
         </header>
         <!----------------            Section                ------------->
-        <section id="app" class="py-5">
+        <div v-if='showLessons' >
+        <section class="py-5">
+            
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     <!-----------MY PRODUCTS----------->
-                    <div v-for = "lesson in sortedLessons class" class="col mb-5">
-                        <div  card h-100>
+                    <div  v-for = "lesson in sortedLessons"   class="col mb-5">
+                        
+                        <div card h-100>
                             <!-- Product image-->
-                            <img class="card-img-top" v-bind:src="lesson.image" alt="..." width="100" height="100" />
+                            <img class="card-img-top" v-bind:src="lesson.image"  width="100" height="100" />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
@@ -65,15 +69,34 @@
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center" class="btn btn-outline-dark mt-auto">Add to cart</div>
+                                <div v-on:click="addToCart(lesson)" v-if="canAddToCart(lesson)" class="text-center" class="btn btn-outline-dark mt-auto" >Add to cart</div>
+                                <button class="btn btn-outline-dark mt-auto" disabled='disabled' v-else>Add to cart</button>
+
+                                <span v-if='lesson.numberOfSpace === cartCount(lesson.id)'>All out!</span>
+                                <!-- <span v-else-if="lesson.numberOfSpace - cartCount(lesson.id) < 5"> Only
+                                    {{lesson.numberOfSpace - cartCount(lesson.id)}} left! </span>
+                                <span v-else>Add now!</span> -->
                             </div>
                         </div>
                     </div>
                     
+                    
                 </div>
                 <!--------------END OF MY PRODUCTS-------------->
             </div>
+        
         </section>
+        <!---------------------Checkout Page---------------------------->
+        </div>
+    <div v-else>
+        <section>
+            
+        
+        </section>
+    </div>
+
+    </div>
+    </body>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
@@ -112,8 +135,8 @@
                         this.cart.push(lesson.id)
                     },
 
-                    canAddToCart:function(lesson){
-                        return lesson.numberOfSpace > cartCount(lesson.id)
+                    canAddToCart: function(lesson){
+                        return lesson.numberOfSpace > this.cartCount(lesson.id)
                     },
 
                     cartCount: function(id){
@@ -125,13 +148,9 @@
                             return count;
                         }
                     },
-
-                    showLessons: function(){
-                        this.showLessons = true;
-                    },
-
+                    
                     showCheckout: function(){
-                        this.showLessons = false;
+                        this.showLessons = this.showLessons ? false : true;
                     },
 
 
@@ -140,7 +159,7 @@
                 },
 
                 computed: {
-                    sortedLesson: function(){
+                    sortedLessons: function(){
                         if (this.sort.first == "Subject" && this.sort.second == "Ascending") {
                         function compare(a, b) {
                             if (a.subject > b.subject) return 1;

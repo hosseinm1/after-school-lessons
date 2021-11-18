@@ -1,4 +1,4 @@
-let lesson = [
+let lessons = [
     {
     "id":2001,
     "subject": "Math Class",
